@@ -17,17 +17,17 @@ let bunny = PIXI.Sprite.fromImage("fable_logo_small.png")
 let renderer : PIXI.WebGLRenderer = !!app.renderer
 
 // center the sprite's anchor point
-bunny.anchor.set(0.5)
-bunny.x <- renderer.width * 0.5
-bunny.y <- renderer.height * 0.5
+//bunny.anchor.set(0.5)
+//bunny.x <- renderer.width * 0.5
+//bunny.y <- renderer.height * 0.5
 
 app.stage.addChild(bunny) |> ignore
 
-let tick delta =
+//let tick delta =
   // just for fun, let's rotate mr rabbit a little
   // delta is 1 if running at 100% performance
   // creates frame-independent tranformation
-  bunny.rotation <- bunny.rotation + 0.1 * delta
+  //bunny.rotation <- bunny.rotation + 0.1 * delta
 
 // Listen for animate update
-app.ticker.add(tick) |> ignore
+//app.ticker.add(tick) |> ignore
