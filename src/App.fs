@@ -4,24 +4,40 @@ open Fable.Core.JsInterop
 open Fable.Import.Pixi
 open Fable.Import.Browser
 
-let options = jsOptions<PIXI.ApplicationOptions> (fun o ->
-    o.backgroundColor <- Some 0x000000
+let textInput = document.getElementById("tutorialText") :?> HTMLInputElement
+let display = document.getElementById("display") :?> HTMLDivElement
+
+let textEntered text =
+  console.log(text)
+  display.innerHTML <- text
+  null
+
+textInput.addEventListener_keyup (fun e -> 
+  match int e.keyCode with
+  | 13 -> textEntered textInput.value
+  | _ -> null
 )
 
-let app = PIXI.Application(400., 400., options)
-document.body.appendChild(app.view) |> ignore
+textInput.focus ()
 
-// create a new Sprite from an image path
-let bunny = PIXI.Sprite.fromImage("fable_logo_small.png")
+// let options = jsOptions<PIXI.ApplicationOptions> (fun o ->
+//     o.backgroundColor <- Some 0x000000
+// )
 
-let renderer : PIXI.WebGLRenderer = !!app.renderer
+// let app = PIXI.Application(400., 400., options)
+// document.body.appendChild(app.view) |> ignore
 
-// center the sprite's anchor point
-//bunny.anchor.set(0.5)
-//bunny.x <- renderer.width * 0.5
-//bunny.y <- renderer.height * 0.5
+// // create a new Sprite from an image path
+// let bunny = PIXI.Sprite.fromImage("fable_logo_small.png")
 
-app.stage.addChild(bunny) |> ignore
+// let renderer : PIXI.WebGLRenderer = !!app.renderer
+
+// // center the sprite's anchor point
+// //bunny.anchor.set(0.5)
+// //bunny.x <- renderer.width * 0.5
+// //bunny.y <- renderer.height * 0.5
+
+// app.stage.addChild(bunny) |> ignore
 
 //let tick delta =
   // just for fun, let's rotate mr rabbit a little
