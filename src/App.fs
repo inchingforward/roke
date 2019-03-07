@@ -9,7 +9,10 @@ let blockWidth = 64.
 let blockHeight = 100.
 
 let textInput = document.getElementById("tutorialText") :?> HTMLInputElement
-let testButton = document.getElementById("testButton") :?> HTMLButtonElement
+let leftButton = document.getElementById("leftButton") :?> HTMLButtonElement
+let rightButton = document.getElementById("rightButton") :?> HTMLButtonElement
+let upButton = document.getElementById("upButton") :?> HTMLButtonElement
+let downButton = document.getElementById("downButton") :?> HTMLButtonElement
 let display = document.getElementById("display") :?> HTMLDivElement
 
 let appOptions = jsOptions<PIXI.ApplicationOptions> (fun o ->
@@ -106,8 +109,23 @@ pixiText.y <- 30.
 
 app.stage.addChild pixiText |> ignore
 
-testButton.addEventListener_click (fun e ->
+rightButton.addEventListener_click (fun e ->
   wizard.x <- wizard.x + blockWidth
+  null
+)
+
+leftButton.addEventListener_click (fun e ->
+  wizard.x <- wizard.x - blockWidth
+  null
+)
+
+upButton.addEventListener_click (fun e -> 
+  wizard.y <- wizard.y - blockWidth
+  null
+)
+
+downButton.addEventListener_click ( fun e ->
+  wizard.y <- wizard.y + blockWidth
   null
 )
 
