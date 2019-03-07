@@ -44,7 +44,7 @@ let waterTile1 = PIXI.Sprite.fromImage("blocks/tileWater_1.png")
 waterTile1.x <- grassTile.x
 waterTile1.y <- grassTile.y - blockWidth
 
-let waterTile2 = PIXI.Sprite.fromImage("blocks/tileWater_3.png")
+let waterTile2 = PIXI.Sprite.fromImage("blocks/tileWater_2.png")
 waterTile2.x <- waterTile1.x + blockWidth
 waterTile2.y <- waterTile1.y
 
@@ -52,7 +52,7 @@ let waterTile3 = PIXI.Sprite.fromImage("blocks/tileWater_3.png")
 waterTile3.x <- waterTile2.x + blockWidth
 waterTile3.y <- waterTile2.y
 
-let waterTile4 = PIXI.Sprite.fromImage("blocks/tileWater_1.png")
+let waterTile4 = PIXI.Sprite.fromImage("blocks/tileWater_4.png")
 waterTile4.x <- waterTile3.x + blockWidth
 waterTile4.y <- waterTile3.y
 
@@ -139,4 +139,33 @@ textInput.addEventListener_keyup (fun e ->
   | _ -> null
 )
 
-textInput.focus ()
+window.addEventListener_keyup (fun e ->
+  match int e.keyCode with
+  | 37 -> wizard.x <- wizard.x - blockWidth // Left
+  | 39 -> wizard.x <- wizard.x + blockWidth // Right
+  | 40 -> wizard.y <- wizard.y + blockWidth // Down
+  | 38 -> wizard.y <- wizard.y - blockWidth // Up
+  | _ -> ()
+
+  null
+)
+
+let animationSpeed = 0.08
+let animationUpdateTime = 1.0 / animationSpeed
+let mutable timeSinceLastFrameSwap = 0.0
+
+let tick delta = 
+  timeSinceLastFrameSwap <- timeSinceLastFrameSwap + delta
+
+  if timeSinceLastFrameSwap > animationUpdateTime then
+    timeSinceLastFrameSwap <- 0.
+    let tempTexture = waterTile1.texture
+    waterTile1.texture <- waterTile2.texture
+    waterTile2.texture <- waterTile3.texture
+    waterTile3.texture <- waterTile4.texture
+    waterTile4.texture <- tempTexture
+  ()
+
+app.ticker.add(tick) |> ignore
+
+//textInput.focus ()
