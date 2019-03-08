@@ -7,6 +7,21 @@
     border: 1px solid green;
 }
 
+#tutorialText {
+    width: 512px;
+    height: 390px;
+    font-size: 1.3em;
+    padding: 5px;
+}
+
+#tutorialInput {
+    width: 512px;
+    height: 92px;
+    font-size: 1.2em;
+    padding: 5px;
+    color: #0000ff;
+}
+
 #display {
     position: absolute;
     top: 0;
@@ -14,4 +29,21 @@
     width: 512px;
     height: 512px;
     border: 1px solid red;
+}
+
+#runButton {
+    font-size: 1.5em;
+    font-weight: 400;
+    width: 100px;
+}
+
+#runButton {
+    color: #000;
+    background: rgba(0,0,0,0);
+    border: solid 2px #000;
+}
+
+#runButton:hover {
+    border-color: #6496c8;
+    color: #6496c8;
 }

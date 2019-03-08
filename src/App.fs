@@ -8,11 +8,9 @@ open Fable.Import.Pixi.PIXI
 let blockWidth = 64.
 let blockHeight = 100.
 
-let textInput = document.getElementById("tutorialText") :?> HTMLInputElement
-let leftButton = document.getElementById("leftButton") :?> HTMLButtonElement
-let rightButton = document.getElementById("rightButton") :?> HTMLButtonElement
-let upButton = document.getElementById("upButton") :?> HTMLButtonElement
-let downButton = document.getElementById("downButton") :?> HTMLButtonElement
+let tutorialText = document.getElementById("tutorialText") :?> HTMLTextAreaElement
+let tutorialInput = document.getElementById("tutorialInput") :?> HTMLTextAreaElement
+let runButton = document.getElementById("runButton") :?> HTMLButtonElement
 let display = document.getElementById("display") :?> HTMLDivElement
 
 let appOptions = jsOptions<PIXI.ApplicationOptions> (fun o ->
@@ -94,13 +92,11 @@ app.stage.addChild grassTile4 |> ignore
 
 app.stage.addChild wizard |> ignore
 
-
 let textStyle = jsOptions<PIXI.TextStyle>( fun o ->
-    o.fontFamily<- !^"Arial"
-    o.fontSize<- !^36.
-    
+    o.fontFamily <- !^"Arial"
+    o.fontSize <- !^36.    
     o.fill <- "#ffffff"
-    o.strokeThickness<- 5.
+    o.strokeThickness <- 5.
 )
 
 let pixiText = PIXI.Text("", textStyle)
@@ -109,44 +105,36 @@ pixiText.y <- 30.
 
 app.stage.addChild pixiText |> ignore
 
-rightButton.addEventListener_click (fun e ->
+let moveRight () = 
   wizard.x <- wizard.x + blockWidth
-  null
-)
 
-leftButton.addEventListener_click (fun e ->
+let moveLeft () =
   wizard.x <- wizard.x - blockWidth
-  null
-)
 
-upButton.addEventListener_click (fun e -> 
+let moveUp () =
   wizard.y <- wizard.y - blockWidth
-  null
-)
 
-downButton.addEventListener_click ( fun e ->
+let moveDown () =
   wizard.y <- wizard.y + blockWidth
-  null
-)
 
-let textEntered text =
-  pixiText.text <- text
-  null
-
-textInput.addEventListener_keyup (fun e -> 
-  match int e.keyCode with
-  | 13 -> textEntered textInput.value
-  | _ -> null
-)
-
-window.addEventListener_keyup (fun e ->
-  match int e.keyCode with
-  | 37 -> wizard.x <- wizard.x - blockWidth // Left
-  | 39 -> wizard.x <- wizard.x + blockWidth // Right
-  | 40 -> wizard.y <- wizard.y + blockWidth // Down
-  | 38 -> wizard.y <- wizard.y - blockWidth // Up
+let runCommand (command: string) =
+  match command with
+  | "moveUp" -> moveUp ()
+  | "moveDown" -> moveDown ()
+  | "moveLeft" -> moveLeft ()
+  | "moveRight" -> moveRight ()
   | _ -> ()
 
+let run () =
+  let commands = tutorialInput.value.Replace("\n", " ").Split()
+  
+  Array.iter runCommand commands
+
+  // tutorialInput.value.Trim()
+  // |> runCommand
+
+runButton.addEventListener_click ( fun e ->
+  run()
   null
 )
 
@@ -169,3 +157,10 @@ let tick delta =
 app.ticker.add(tick) |> ignore
 
 //textInput.focus ()
+tutorialText.value <- """Use the following commands:
+
+moveRight
+moveLeft
+moveUp
+moveDown
+"""
